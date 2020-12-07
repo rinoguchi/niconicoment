@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Participant | Niconicoment</title>
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css"> <!-- 軽量なNoClassのCSSフレームワーク -->
+</head>
+<body>
+    <style>
+        #message-container {
+            min-height: 40px;
+        }
+        .niconicoment-message {
+            animation: fedeout 5s linear 0s 1 normal forwards;
+        }
+        @keyframes fedeout {
+            0% { opacity: 100; }
+            100% { opacity: 0; display: none; }
+        }            
+    </style>
+    <form>
+        <h1>Niconicoment Participant</h1>
+        <label for="meeting-id">Meeting Id</label>
+        <input type="text" id="meeting-id" size="80" readonly />
+        <label for="comment">Comment <code>:quiin:</code> <code>:rabbit:</code></label>
+        <input type="text" id="comment" size="80" />
+        
+        <label for="color">Color</label>
+        <input type="color" id="color" />
+        <label for="size">Size</label>
+        <select id="size">
+            <option value="10px">10px</option>
+            <option value="14px">14px</option>
+            <option value="18px">18px</option>
+            <option value="22px" selected>22px</option>
+            <option value="26px">26px</option>
+            <option value="30px">30px</option>
+            <option value="40px">40px</option>
+            <option value="50px">50px</option>
+        </select>
+        <input type="button" id="send" value="Send" />
+        <div id="message-container"></div>
+    </form>
+    
+    <script src="/socket.io/socket.io.js"></script> <!-- socket.io serverが、このpathにclient bundleをexposeしてくれる -->
+    <script>
+        (() => {
+            class Comment {
+                constructor(comment, color, size) {
+                    this.comment = comment;
+                    this.color = color;
+                    this.size = size;
+                }
+            }
+
+            class NiconicomentParticipant {
+                constructor() {
+                    this.socket = io();
+                    this.meetingIdEl = document.getElementById('meeting-id');
+                    this.messageContainerEl = document.getElementById('message-container');
+                    this.commentEl = document.getElementById('comment');
+                    this.colorEl = document.getElementById('color');
+                    this.sizeEl = document.getElementById('size');
+                    this.sendButtonEl = document.getElementById('send');
+                    this.message = undefined;
+                    this.registerEvents();
+                    this.render();
+                }
+
+                registerEvents() {
+                    this.sendButtonEl.addEventListener('click',(e) => {
+                        // validate
+                        if (this.commentEl.value === '') {
+                            this.message = 'Please input Comment.';
+                            this.render();
+                            return;
+                        }
+                        
+                        // コメント送信
+                        const comment = new Comment(this.commentEl.value, this.colorEl.value, this.sizeEl.value);
+                        this.socket.emit('send-comment-to-server', {meetingId: this.meetingIdEl.value, comment: comment}, (res) => {
+                            this.message = res.message;
+                            this.render();
+                        });
+                    });
+                }
+
+                render() {
+                    this.meetingIdEl.value = new URLSearchParams(window.location.search.slice(1)).get('meetingId');
+
+                    if (this.message) {
+                        const messageEl = document.createElement('div');
+                        messageEl.className = 'niconicoment-message';
+                        messageEl.textContent = this.message;
+                        this.messageContainerEl.appendChild(messageEl);
+                        setInterval(() => {
+                            messageEl.remove();
+                        }, 5000);
+                    }
+                    
+                }
+            }
+            new NiconicomentParticipant();
+        })();
+    </script>
+</body>
+</html>
