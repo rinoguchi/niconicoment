@@ -18,12 +18,12 @@ class Response {
         this.succeeded = succeeded;
         this.message = message;
         this.content = content;
-        console.log(this.message)
+        console.log(this.message);
     }
 }
 
-// socket.io
-let participantsByMeeting = new Map() // key: meetingId, value: Set<socket.id>
+// socket.ioの受付設定
+const participantsByMeeting = new Map() // key: meetingId, value: Set<socket.id>
 io.on('connection', (socket) => {
     console.log(`connected. socket.id: ${socket.id}`)
 
@@ -61,7 +61,7 @@ io.on('connection', (socket) => {
         io.to(msg.meetingId).emit('send-comment-to-presenter', msg.comment);
 
         // 正常終了を通知
-        callback(new Response(false, `Send comment succeeded.`))
+        callback(new Response(true, 'Send comment succeeded.'));
     });
 });
 
