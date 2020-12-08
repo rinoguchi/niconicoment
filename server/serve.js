@@ -8,7 +8,7 @@ const io = require('socket.io')(http, { cors: { origin: '*' } }); // NOTE: Acces
 app.use(express.static('public'));
 
 // ポートリッスン開始
-const port = process.env.PORT || 9000;
+const port = process.env.PORT || 8080;
 http.listen(port, () => {
     console.log('listening on http://localhost:' + port);
 });

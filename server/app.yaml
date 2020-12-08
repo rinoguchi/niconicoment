@@ -1,0 +1,6 @@
+runtime: nodejs12
+
+network:
+  session_affinity: true # 同じユーザのリクエストを同じインスタンスに
+
+entrypoint: node serve.js

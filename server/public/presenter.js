@@ -82,7 +82,7 @@
         registerEvents() {
             // 開始ボタン
             this.openButtonEl.addEventListener('click', (e) => {
-                this.socket = io('http://localhost:9000'); // NOTE: URLを指定しないとホストページのドメインで探しに行ってしまう
+                this.socket = io('https://niconicoment.df.r.appspot.com'); // NOTE: URLを指定しないとホストページのドメインで探しに行ってしまう
                 this.socket.emit('open-meeting', (res) => {
                     console.log(res.message);
                     this.meetingId = res.content.meetingId;
@@ -109,7 +109,7 @@
             this.closeButtonEl.disabled = (this.socket === undefined);
             if (this.meetingId) {
                 this.meetingIdEl.value = this.meetingId;
-                this.participantLinkEl.href = `http://localhost:9000/participant.html?meetingId=${this.meetingId}`;
+                this.participantLinkEl.href = `https://niconicoment.df.r.appspot.com/participant.html?meetingId=${this.meetingId}`;
                 this.meetingContainerEl.style.display = 'block';
             } else {
                 this.meetingContainerEl.style.display = 'none';
