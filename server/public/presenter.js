@@ -164,5 +164,10 @@
             return arts;
         }
     }
-    new NiconicomentPresenter();
+
+    // socket.io.jsの読み込みが完了したら、NiconicomentPresenterを実行する
+    const socketIoScript = document.createElement('script');
+    socketIoScript.src = 'https://niconicoment.df.r.appspot.com/socket.io/socket.io.js';
+    socketIoScript.addEventListener('load', () => { new NiconicomentPresenter() });
+    document.body.appendChild(socketIoScript);
 })();
