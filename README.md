@@ -49,7 +49,7 @@ https://rinoguchi.net/2020/12/niconico-coment-on-browser.html
     ```
  * GAEアプリケーションを初期化
     ```sh
-    gcloud app create --project=[YOUR_PROJECT_ID]
+    gcloud app create --project=niconicoment
     ```
 * 対象プロジェクトの課金を有効化
     * https://console.cloud.google.com/projectselector/billing
