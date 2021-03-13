@@ -73,18 +73,24 @@
             class NiconicomentParticipant {
                 constructor() {
                     this.socket = io();
+                    this.message = undefined;
+
+                    // Elementを取得
                     this.meetingIdEl = document.getElementById('meeting-id');
                     this.messageContainerEl = document.getElementById('message-container');
                     this.commentEl = document.getElementById('comment');
                     this.colorEl = document.getElementById('color');
                     this.sizeEl = document.getElementById('size');
                     this.sendButtonEl = document.getElementById('send');
-                    this.message = undefined;
-                    this.registerEvents();
+
+                    // イベントリスナーを設定
+                    this.registerEventListners();
+
+                    // レンダリング
                     this.render();
                 }
 
-                registerEvents() {
+                registerEventListners() {
                     this.sendButtonEl.addEventListener('click',(e) => {
                         // validate
                         if (this.commentEl.value === '') {

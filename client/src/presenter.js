@@ -47,7 +47,7 @@ class NiconicomentPresenter {
             background-color: white;
             padding: 5px;
             border: solid lightgray 1px;
-            z-index: 99999;
+            z-index: 2147483647;
             font-size: 12px;
             width: 170px;
             min-height: 65px;
@@ -57,7 +57,7 @@ class NiconicomentPresenter {
         }
         .niconicoment-slide-comment {
             position: absolute;
-            z-index: 99999;
+            z-index: 2147483647;
             border: none;
             background-color: transparent;
             box-shadow: none;
