@@ -118,9 +118,9 @@ class NiconicomentPresenter {
     }
 
     slideComment(comment) {
-        const el = document.createElement('pre');
-        el.className = 'niconicoment-slide-comment';
-        el.style = `
+        const commentEl = document.createElement('pre');
+        commentEl.className = 'niconicoment-slide-comment';
+        commentEl.style = `
             top: ${comment.top};
             animation: slide ${comment.duration} linear 0s 1 normal forwards;
             color: ${comment.color};
@@ -132,9 +132,14 @@ class NiconicomentPresenter {
         for (let key of this.arts.keys()) {
             transformedComment = transformedComment.replaceAll(new RegExp(key, 'g'), this.arts.get(key));
         }
+        commentEl.textContent = transformedComment;
 
-        el.textContent = transformedComment;
-        document.body.appendChild(el);
+        const fullScreenEl = document.querySelector("[allowfullscreen],[mozallowfullscreen],[webkitallowfullscreen]");
+        if (fullScreenEl) {
+            fullScreenEl.parentElement.appendChild(commentEl);
+        } else {
+            document.body.appendChild(commentEl);
+        }
     }
 
     loadArts() {
