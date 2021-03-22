@@ -134,9 +134,9 @@ class NiconicomentPresenter {
         }
         commentEl.textContent = transformedComment;
 
-        const fullScreenEl = document.querySelector("[allowfullscreen],[mozallowfullscreen],[webkitallowfullscreen]");
-        if (fullScreenEl) {
-            fullScreenEl.parentElement.appendChild(commentEl);
+        const fullScreenContainerEl = document.querySelector(".punch-full-screen-element"); // Googleスライド
+        if (fullScreenContainerEl) {
+            fullScreenContainerEl.appendChild(commentEl);
         } else {
             document.body.appendChild(commentEl);
         }
